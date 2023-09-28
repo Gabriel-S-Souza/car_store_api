@@ -3,14 +3,9 @@ import { AuthService } from './auth.service';
 import { CreateUserDto } from './dtos/create-user.dto';
 import { LoginDto } from './dtos/login.dto';
 
-@Controller('auth')
+@Controller()
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
-
-  @Get('')
-  async hello() {
-    return { message: 'Hello' };
-  }
 
   @Post('signup')
   async signUp(@Body() user: CreateUserDto) {
@@ -22,13 +17,19 @@ export class AuthController {
     return this.authService.login(user);
   }
 
+  @Delete('users/:id')
+  async deletUsers(@Param('id') id: number) {
+    return this.authService.deleteUser(id);
+  }
+
+  @Post('refresh-token')
+  async refreshToken(@Body() body: any) {
+    return this.authService.refreshToken(body['refreshToken']);
+  }
+
+  //TODO: Remove this endpoint used only for testing
   @Get('users')
   async getUsers() {
     return this.authService.getUsers();
-  }
-
-  @Delete('users/:id')
-  async deletUsers(@Param('id') id: number) {
-    return this.authService.deleteUsers(id);
   }
 }

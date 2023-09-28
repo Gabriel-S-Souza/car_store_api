@@ -13,4 +13,9 @@ export class UserEntity {
 
   @Column({ length: 100 })
   password: string;
+
+  toResponse() {
+    const { id, name, email } = this;
+    return { id, name, email };
+  }
 }

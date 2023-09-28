@@ -6,6 +6,7 @@ const EMPTY_PASSWORD = 'A senha deve ser informada.';
 const EMPTY_NAME = 'O nome deve ser informado.';
 const EMAIL_ALREADY_IN_USE = 'Já existe um usuário cadastrado com este email.';
 const INVALID_CREDENTIALS = 'email ou senha inválidos.';
+const INVALID_REFRESH_TOKEN = 'refresh token inválido.';
 
 export const ErrorHelper = {
   INVALID_PASSWORD,
@@ -15,4 +16,5 @@ export const ErrorHelper = {
   EMPTY_NAME,
   EMAIL_ALREADY_IN_USE,
   INVALID_CREDENTIALS,
+  INVALID_REFRESH_TOKEN,
 };

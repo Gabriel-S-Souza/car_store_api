@@ -5,6 +5,8 @@ import { FindOneOptions, Repository } from 'typeorm';
 import { CreateUserDto } from './dtos/create-user.dto';
 import { ErrorHelper } from 'src/helpers/error.helper';
 import { LoginDto } from './dtos/login.dto';
+import { Roles } from 'src/helpers/roles.helper';
+import { JwtService } from '@nestjs/jwt';
 
 const DUPLICATED_KEY_ERROR_CODE = '23505';
 
@@ -13,6 +15,7 @@ export class AuthService {
   constructor(
     @InjectRepository(UserEntity)
     private readonly userRepository: Repository<UserEntity>,
+    private readonly jwtService: JwtService,
   ) {}
 
   async signUp(user: CreateUserDto): Promise<any> {
@@ -47,13 +50,64 @@ export class AuthService {
       );
     }
 
-    const payload = { username: user.email, sub: user.id };
+    const { accessToken, refreshToken } = this.generateTokens(user);
+
     return {
-      access_token: payload,
+      accessToken,
+      refreshToken,
+      user: user.toResponse(),
     };
   }
 
-  async validateUser(loginDto: LoginDto) {
+  async refreshToken(refreshToken: string) {
+    try {
+      const decodedToken = this.jwtService.verify(refreshToken, {
+        secret: process.env.JWT_REFRESH_SECRET_KEY,
+      });
+
+      if (decodedToken && decodedToken.isRefreshToken) {
+        const user = await this.getUser({ where: { id: decodedToken.sub } });
+
+        if (user) {
+          const { accessToken, refreshToken } = this.generateTokens(user);
+
+          return {
+            accessToken: accessToken,
+            refreshToken: refreshToken,
+          };
+        }
+      }
+
+      throw new HttpException(
+        {
+          status: HttpStatus.UNAUTHORIZED,
+          error: ErrorHelper.INVALID_REFRESH_TOKEN,
+        },
+        HttpStatus.UNAUTHORIZED,
+      );
+    } catch (error) {
+      if (error.name === 'JsonWebTokenError') {
+        throw new HttpException(
+          {
+            status: HttpStatus.UNAUTHORIZED,
+            error: error.message,
+          },
+          HttpStatus.UNAUTHORIZED,
+        );
+      }
+      throw error;
+    }
+  }
+
+  async deleteUser(id: number): Promise<any> {
+    return await this.userRepository.delete(id);
+  }
+
+  async getUsers(): Promise<UserEntity[]> {
+    return await this.userRepository.find();
+  }
+
+  private async validateUser(loginDto: LoginDto) {
     let user: UserEntity;
     try {
       user = await this.getUser({ where: { email: loginDto.email } });
@@ -61,7 +115,7 @@ export class AuthService {
       return null;
     }
 
-    const isPasswordValid = this.isEqualsPasswords(
+    const isPasswordValid = this.isPasswordsEquals(
       loginDto.password,
       user.password,
     );
@@ -70,11 +124,29 @@ export class AuthService {
     return user;
   }
 
-  async getUsers(): Promise<UserEntity[]> {
-    return await this.userRepository.find();
+  private generateTokens(user: UserEntity) {
+    const payload = {
+      username: user.email,
+      sub: user.id,
+      roles: [Roles.ADMIN],
+    };
+    const payloadRefresh = {
+      sub: user.id,
+      roles: [Roles.ADMIN],
+      isRefreshToken: true,
+    };
+    const accessToken = this.jwtService.sign(payload, {
+      secret: process.env.JWT_SECRET_KEY,
+    });
+    const refreshToken = this.jwtService.sign(payloadRefresh, {
+      secret: process.env.JWT_REFRESH_SECRET_KEY,
+      expiresIn: '30d',
+    });
+
+    return { accessToken, refreshToken };
   }
 
-  async getUser(options: FindOneOptions<UserEntity>) {
+  private async getUser(options: FindOneOptions<UserEntity>) {
     try {
       return await this.userRepository.findOneOrFail(options);
     } catch (error) {
@@ -82,11 +154,7 @@ export class AuthService {
     }
   }
 
-  async deleteUsers(id: number): Promise<any> {
-    return await this.userRepository.delete(id);
-  }
-
-  isEqualsPasswords(password: string, password1: string) {
+  private isPasswordsEquals(password: string, password1: string) {
     return password === password1;
   }
 }
