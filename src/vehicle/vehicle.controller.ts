@@ -14,12 +14,15 @@ import { VehicleEntity } from './vehicle.entity';
 import { UpdateVehicleDto } from './dtos/update-vehicle.dtor';
 import { CreateVehicleDto } from './dtos/create-vehicle.dto';
 import { AdminGuard } from './guards/admin.guard';
+import { ApiParam, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Veículos')
 @Controller('vehicles')
 export class VehicleController {
   constructor(private readonly vehicleService: VehicleService) {}
 
   @Get()
+  @ApiParam({ name: 'page', required: false })
   async getAllVehicles(@Query('page') page: number): Promise<VehicleEntity[]> {
     return this.vehicleService.getVehicles(page);
   }
