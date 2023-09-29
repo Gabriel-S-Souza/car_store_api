@@ -7,6 +7,7 @@ const EMPTY_NAME = 'O nome deve ser informado.';
 const EMAIL_ALREADY_IN_USE = 'Já existe um usuário cadastrado com este email.';
 const INVALID_CREDENTIALS = 'email ou senha inválidos.';
 const INVALID_REFRESH_TOKEN = 'refresh token inválido.';
+const VEHICLE_NOT_FOUND = 'Veículo não encontrado.';
 
 export const ErrorHelper = {
   INVALID_PASSWORD,
@@ -17,4 +18,5 @@ export const ErrorHelper = {
   EMAIL_ALREADY_IN_USE,
   INVALID_CREDENTIALS,
   INVALID_REFRESH_TOKEN,
+  VEHICLE_NOT_FOUND,
 };

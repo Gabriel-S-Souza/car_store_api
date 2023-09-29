@@ -18,7 +18,7 @@ export class AuthController {
   }
 
   @Delete('users/:id')
-  async deletUsers(@Param('id') id: number) {
+  async deleteUsers(@Param('id') id: number) {
     return this.authService.deleteUser(id);
   }
 
