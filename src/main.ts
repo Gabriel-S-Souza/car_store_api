@@ -1,7 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
-import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { createSwaggerDocument } from './helpers/documentation.helper';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -11,13 +11,3 @@ async function bootstrap() {
   await app.listen(3000);
 }
 bootstrap();
-
-function createSwaggerDocument(app) {
-  const config = new DocumentBuilder()
-    .setTitle('Car Store: vitrine de veículos')
-    .setDescription('API para gerenciamento de loja de veículos')
-    .setVersion('1.0')
-    .build();
-  const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api/doc', app, document);
-}
