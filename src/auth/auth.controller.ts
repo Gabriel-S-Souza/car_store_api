@@ -17,14 +17,15 @@ export class AuthController {
     return this.authService.login(user);
   }
 
-  @Delete('users/:id')
-  async deleteUsers(@Param('id') id: number) {
-    return this.authService.deleteUser(id);
-  }
-
   @Post('refresh-token')
   async refreshToken(@Body() body: any) {
     return this.authService.refreshToken(body['refreshToken']);
+  }
+
+  //TODO: Remove this endpoint used only for testing
+  @Delete('users/:id')
+  async deleteUsers(@Param('id') id: number) {
+    return this.authService.deleteUser(id);
   }
 
   //TODO: Remove this endpoint used only for testing

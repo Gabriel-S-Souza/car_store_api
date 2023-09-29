@@ -7,11 +7,13 @@ import {
   Put,
   Delete,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import { VehicleService } from './vehicle.service';
 import { VehicleEntity } from './vehicle.entity';
 import { UpdateVehicleDto } from './dtos/update-vehicle.dtor';
 import { CreateVehicleDto } from './dtos/create-vehicle.dto';
+import { AdminGuard } from './guards/admin.guard';
 
 @Controller('vehicles')
 export class VehicleController {
@@ -28,6 +30,7 @@ export class VehicleController {
   }
 
   @Post()
+  @UseGuards(AdminGuard)
   async createVehicle(
     @Body() createVehicleDto: CreateVehicleDto,
   ): Promise<VehicleEntity> {
@@ -35,6 +38,7 @@ export class VehicleController {
   }
 
   @Put(':id')
+  @UseGuards(AdminGuard)
   async updateVehicle(
     @Param('id') id: number,
     @Body() updateVehicleDto: UpdateVehicleDto,
@@ -43,6 +47,7 @@ export class VehicleController {
   }
 
   @Delete(':id')
+  @UseGuards(AdminGuard)
   async deleteVehicle(@Param('id') id: number): Promise<void> {
     return this.vehicleService.deleteVehicle(id);
   }

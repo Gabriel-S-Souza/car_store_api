@@ -8,6 +8,8 @@ const EMAIL_ALREADY_IN_USE = 'Já existe um usuário cadastrado com este email.'
 const INVALID_CREDENTIALS = 'email ou senha inválidos.';
 const INVALID_REFRESH_TOKEN = 'refresh token inválido.';
 const VEHICLE_NOT_FOUND = 'Veículo não encontrado.';
+const UNAUTHORIZED = 'Não autorizado.';
+const FORBIDDEN = 'Você não tem permissão para acessar este recurso.';
 
 export const ErrorHelper = {
   INVALID_PASSWORD,
@@ -19,4 +21,6 @@ export const ErrorHelper = {
   INVALID_CREDENTIALS,
   INVALID_REFRESH_TOKEN,
   VEHICLE_NOT_FOUND,
+  UNAUTHORIZED,
+  FORBIDDEN,
 };
