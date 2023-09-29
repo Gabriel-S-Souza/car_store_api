@@ -15,8 +15,8 @@ export class AuthController {
   }
 
   @Post('login')
-  async login(@Body() user: LoginDto) {
-    return this.authService.login(user);
+  async login(@Body() login: LoginDto) {
+    return this.authService.login(login);
   }
 
   @Post('refresh-token')
