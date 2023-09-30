@@ -1,4 +1,10 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import {
+  ConflictException,
+  HttpException,
+  HttpStatus,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserEntity } from './user.entity';
 import { FindOneOptions, Repository } from 'typeorm';
@@ -25,13 +31,7 @@ export class AuthService {
       return newUser;
     } catch (error) {
       if (error.code === DUPLICATED_KEY_ERROR_CODE) {
-        throw new HttpException(
-          {
-            status: HttpStatus.CONFLICT,
-            error: ErrorHelper.EMAIL_ALREADY_IN_USE,
-          },
-          HttpStatus.CONFLICT,
-        );
+        throw new ConflictException(ErrorHelper.EMAIL_ALREADY_IN_USE);
       }
       throw error;
     }
@@ -41,13 +41,7 @@ export class AuthService {
     const user = await this.validateUser(loginDto);
 
     if (!user) {
-      throw new HttpException(
-        {
-          status: HttpStatus.UNAUTHORIZED,
-          error: ErrorHelper.INVALID_CREDENTIALS,
-        },
-        HttpStatus.UNAUTHORIZED,
-      );
+      throw new UnauthorizedException(ErrorHelper.INVALID_CREDENTIALS);
     }
 
     const { accessToken, refreshToken } = this.generateTokens(user);

@@ -1,9 +1,14 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { VehicleEntity } from './vehicle.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateVehicleDto } from './dtos/create-vehicle.dto';
 import { ErrorHelper } from 'src/helpers/error.helper';
+import { UpdateVehicleDto } from './dtos/update-vehicle.dtor';
 
 const LIMIT = 10;
 
@@ -19,6 +24,9 @@ export class VehicleService {
     return await this.vehicleRepository.find({
       skip,
       take: LIMIT,
+      order: {
+        price: 'ASC',
+      },
       select: {
         id: true,
         name: true,
@@ -32,8 +40,7 @@ export class VehicleService {
 
   async getVehicleById(id: number): Promise<VehicleEntity> {
     try {
-      const vehicle = await this.vehicleRepository.findOneByOrFail({ id });
-      return vehicle;
+      return await this.vehicleRepository.findOneByOrFail({ id });
     } catch (error) {
       throw new NotFoundException(ErrorHelper.VEHICLE_NOT_FOUND);
     }
@@ -48,8 +55,11 @@ export class VehicleService {
 
   async updateVehicle(
     id: number,
-    updateVehicleDto: CreateVehicleDto,
+    updateVehicleDto: UpdateVehicleDto,
   ): Promise<VehicleEntity> {
+    if (!Object.keys(updateVehicleDto).length) {
+      throw new BadRequestException(ErrorHelper.VEHICLE_UPDATE_EMPTY_BODY);
+    }
     const vehicle = await this.getVehicleById(id);
     Object.assign(vehicle, updateVehicleDto);
     return await this.vehicleRepository.save(vehicle);

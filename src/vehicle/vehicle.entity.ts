@@ -26,7 +26,7 @@ export class VehicleEntity {
   @Column('text')
   image: string;
 
-  @Column('decimal', {
+  @Column('numeric', {
     precision: 10,
     scale: 2,
     transformer: new ColumnNumericTransformer(),
