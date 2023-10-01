@@ -21,7 +21,7 @@ export class VehicleService {
 
   async getVehicles(page = 1): Promise<VehicleEntity[]> {
     const skip = (page - 1) * LIMIT;
-    return await this.vehicleRepository.find({
+    const vehicles = await this.vehicleRepository.find({
       skip,
       take: LIMIT,
       order: {
@@ -36,6 +36,10 @@ export class VehicleService {
         image: true,
       },
     });
+    if (!vehicles.length) {
+      throw new NotFoundException(ErrorHelper.NO_MORE_VEHICLES);
+    }
+    return vehicles;
   }
 
   async getVehicleById(id: number): Promise<VehicleEntity> {

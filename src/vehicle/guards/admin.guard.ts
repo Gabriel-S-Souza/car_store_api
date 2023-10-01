@@ -27,7 +27,7 @@ export class AdminGuard implements CanActivate {
       const payload = this.jwtService.verify(accessToken, {
         secret: process.env.JWT_SECRET_KEY,
       });
-      if (!payload.roles || !payload.roles.includes(Roles.ADMIN)) {
+      if (!payload.role || !(payload.role == Roles.ADMIN)) {
         throw new ForbiddenException(ErrorHelper.FORBIDDEN);
       }
       return true;

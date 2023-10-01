@@ -1,3 +1,4 @@
+import { Roles } from 'src/helpers/roles.helper';
 import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
 @Entity('users')
@@ -14,8 +15,8 @@ export class UserEntity {
   @Column({ length: 100 })
   password: string;
 
-  toResponse() {
+  toResponse({ role = Roles.USER }: { role?: string } = {}) {
     const { id, name, email } = this;
-    return { id, name, email };
+    return { id, name, email, role };
   }
 }

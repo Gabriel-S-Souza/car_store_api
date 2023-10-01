@@ -49,7 +49,7 @@ export class AuthService {
     return {
       accessToken,
       refreshToken,
-      user: user.toResponse(),
+      user: user.toResponse({ role: Roles.ADMIN }),
     };
   }
 
@@ -122,11 +122,11 @@ export class AuthService {
     const payload = {
       username: user.email,
       sub: user.id,
-      roles: [Roles.ADMIN],
+      role: Roles.ADMIN,
     };
     const payloadRefresh = {
       sub: user.id,
-      roles: [Roles.ADMIN],
+      roles: Roles.ADMIN,
       isRefreshToken: true,
     };
     const accessToken = this.jwtService.sign(payload, {
