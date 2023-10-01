@@ -1,7 +1,9 @@
 const INVALID_FIELD = 'O campo $property está inválido';
-const INVALID_PASSWORD =
+const INVALID_PASSWORD = 'Senha incorreta';
+const INVALID_PASSWORD_INFO =
   'A senha deve conter pelo menos 8 caracteres, uma letra maiúscula, uma letra minúscula, um número e um caractere especial';
 const INVALID_EMAIL = 'O email informado é inválido';
+const NO_IS_REGISTERED = 'Você não está cadastrado';
 const EMPTY_EMAIL = 'O email deve ser informado';
 const EMPTY_PASSWORD = 'A senha deve ser informada';
 const EMPTY_NAME = 'O nome deve ser informado';
@@ -19,6 +21,7 @@ const NO_MORE_VEHICLES = 'Não há mais veículos para serem exibidos';
 export const ErrorHelper = {
   INVALID_FIELD,
   INVALID_PASSWORD,
+  INVALID_PASSWORD_INFO,
   INVALID_EMAIL,
   EMPTY_EMAIL,
   EMPTY_PASSWORD,
@@ -32,4 +35,5 @@ export const ErrorHelper = {
   VEHICLE_UPDATE_EMPTY_BODY,
   INVALID_ADICIONAL_INFORMATION,
   NO_MORE_VEHICLES,
+  NO_IS_REGISTERED,
 };

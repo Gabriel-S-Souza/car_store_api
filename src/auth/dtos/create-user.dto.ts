@@ -19,7 +19,7 @@ export class CreateUserDto {
   email: string;
 
   @IsNotEmpty({ message: ErrorHelper.EMPTY_PASSWORD })
-  @Matches(RegExHelper.password, { message: ErrorHelper.INVALID_PASSWORD })
+  @Matches(RegExHelper.password, { message: ErrorHelper.INVALID_PASSWORD_INFO })
   @ApiProperty({
     type: String,
     default: '@Jonh123',

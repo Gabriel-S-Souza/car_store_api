@@ -10,7 +10,7 @@ export class LoginDto {
   email: string;
 
   @IsNotEmpty({ message: ErrorHelper.EMPTY_PASSWORD })
-  @Matches(RegExHelper.password, { message: ErrorHelper.INVALID_PASSWORD })
+  @Matches(RegExHelper.password, { message: ErrorHelper.INVALID_PASSWORD_INFO })
   @ApiProperty({ type: String })
   password: string;
 }

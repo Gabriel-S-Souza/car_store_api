@@ -39,9 +39,15 @@ export class AuthService {
 
   async login(loginDto: LoginDto) {
     const user = await this.validateUser(loginDto);
-
     if (!user) {
       throw new UnauthorizedException(ErrorHelper.INVALID_CREDENTIALS);
+    }
+    const isPasswordValid = this.isPasswordsEquals(
+      loginDto.password,
+      user.password,
+    );
+    if (!isPasswordValid) {
+      throw new UnauthorizedException(ErrorHelper.INVALID_PASSWORD);
     }
 
     const { accessToken, refreshToken } = this.generateTokens(user);
@@ -102,20 +108,11 @@ export class AuthService {
   }
 
   private async validateUser(loginDto: LoginDto) {
-    let user: UserEntity;
     try {
-      user = await this.getUser({ where: { email: loginDto.email } });
+      return await this.getUser({ where: { email: loginDto.email } });
     } catch (error) {
       return null;
     }
-
-    const isPasswordValid = this.isPasswordsEquals(
-      loginDto.password,
-      user.password,
-    );
-    if (!isPasswordValid) return null;
-
-    return user;
   }
 
   private generateTokens(user: UserEntity) {
