@@ -28,7 +28,7 @@ export class AuthService {
     try {
       const newUser = this.userRepository.create(user);
       await this.userRepository.save(newUser);
-      return newUser;
+      return newUser.toResponse({ role: Roles.ADMIN });
     } catch (error) {
       if (error.code === DUPLICATED_KEY_ERROR_CODE) {
         throw new ConflictException(ErrorHelper.EMAIL_ALREADY_IN_USE);
