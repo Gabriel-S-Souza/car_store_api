@@ -13,6 +13,8 @@ import { ErrorHelper } from 'src/helpers/error.helper';
 import { LoginDto } from './dtos/login.dto';
 import { Roles } from 'src/helpers/roles.helper';
 import { JwtService } from '@nestjs/jwt';
+import { UserResponseDTO } from './dtos/user-response.dto';
+import { LoginResponseDTO } from './dtos/login-response.dto';
 
 const DUPLICATED_KEY_ERROR_CODE = '23505';
 
@@ -24,7 +26,7 @@ export class AuthService {
     private readonly jwtService: JwtService,
   ) {}
 
-  async signUp(user: CreateUserDto): Promise<any> {
+  async signUp(user: CreateUserDto): Promise<UserResponseDTO> {
     try {
       const newUser = this.userRepository.create(user);
       await this.userRepository.save(newUser);
@@ -37,7 +39,7 @@ export class AuthService {
     }
   }
 
-  async login(loginDto: LoginDto) {
+  async login(loginDto: LoginDto): Promise<LoginResponseDTO> {
     const user = await this.validateUser(loginDto);
     if (!user) {
       throw new UnauthorizedException(ErrorHelper.INVALID_CREDENTIALS);
@@ -59,7 +61,9 @@ export class AuthService {
     };
   }
 
-  async refreshToken(refreshToken: string) {
+  async refreshToken(
+    refreshToken: string,
+  ): Promise<{ accessToken: string; refreshToken: string }> {
     try {
       const decodedToken = this.jwtService.verify(refreshToken, {
         secret: process.env.JWT_REFRESH_SECRET_KEY,
@@ -117,13 +121,14 @@ export class AuthService {
 
   private generateTokens(user: UserEntity) {
     const payload = {
-      username: user.email,
+      email: user.email,
       sub: user.id,
       role: Roles.ADMIN,
     };
     const payloadRefresh = {
+      email: user.email,
       sub: user.id,
-      roles: Roles.ADMIN,
+      role: Roles.ADMIN,
       isRefreshToken: true,
     };
     const accessToken = this.jwtService.sign(payload, {

@@ -20,10 +20,13 @@ export class AdminGuard implements CanActivate {
     try {
       const request = context.switchToHttp().getRequest();
       const authorization = request.headers.authorization;
+
       if (!authorization && !authorization?.startsWith('Bearer ')) {
         throw new UnauthorizedException(ErrorHelper.UNAUTHORIZED);
       }
-      const accessToken = request.headers.authorization.split(' ')[1];
+
+      const accessToken = authorization.split(' ')[1];
+
       const payload = this.jwtService.verify(accessToken, {
         secret: process.env.JWT_SECRET_KEY,
       });
