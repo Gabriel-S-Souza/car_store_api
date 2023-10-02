@@ -11,6 +11,7 @@ import {
   isString,
 } from 'class-validator';
 import { ErrorHelper } from 'src/helpers/error.helper';
+import { IsYearValid } from './create-vehicle.dto';
 
 export class UpdateVehicleDto {
   @IsOptional()
@@ -43,6 +44,17 @@ export class UpdateVehicleDto {
   @IsString({ message: ErrorHelper.INVALID_FIELD })
   @ApiProperty({ type: String })
   description: string;
+
+  @IsOptional()
+  @IsString({ message: ErrorHelper.INVALID_FIELD })
+  @ApiProperty({ type: String })
+  condition: string;
+
+  @IsOptional()
+  @IsNumber({ allowNaN: false }, { message: ErrorHelper.INVALID_FIELD })
+  @IsYearValid()
+  @ApiProperty({ type: Number })
+  year: number;
 
   @IsOptional()
   @IsArrayOfKeyValueObjects()

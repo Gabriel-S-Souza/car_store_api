@@ -50,10 +50,8 @@ export class VehicleService {
     }
   }
 
-  async createVehicle(
-    CreateVehicleDto: CreateVehicleDto,
-  ): Promise<VehicleEntity> {
-    const vehicle = this.vehicleRepository.create(CreateVehicleDto);
+  async createVehicle(vehicleDto: CreateVehicleDto): Promise<VehicleEntity> {
+    const vehicle = this.vehicleRepository.create(vehicleDto);
     return await this.vehicleRepository.save(vehicle);
   }
 
