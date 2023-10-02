@@ -9,6 +9,14 @@ class ColumnNumericTransformer {
   }
 }
 
+export enum ConditionEnum {
+  NEW = 'new',
+  ALMOST_NEW = 'almost_new',
+  USED = 'used',
+  GOOD_CONDITION = 'in_good_condition',
+  NEEDS_REPAIR = 'needs_repair',
+}
+
 @Entity('vehicle')
 export class VehicleEntity {
   @PrimaryGeneratedColumn()
@@ -35,6 +43,15 @@ export class VehicleEntity {
 
   @Column('text')
   description: string;
+
+  @Column('text')
+  condition: string;
+
+  @Column('integer')
+  year: number;
+
+  @Column('integer')
+  mileage: number;
 
   @Column('jsonb', { name: 'additional_informations', nullable: true })
   additionalInformations: { key: string; value: string }[];

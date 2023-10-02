@@ -1,4 +1,5 @@
 const INVALID_FIELD = 'O campo $property está inválido';
+const MISSING_FIELD = 'O campo $property é obrigatório';
 const INVALID_PASSWORD = 'Senha incorreta';
 const INVALID_PASSWORD_INFO =
   'A senha deve conter pelo menos 8 caracteres, uma letra maiúscula, uma letra minúscula, um número e um caractere especial';
@@ -20,6 +21,7 @@ const NO_MORE_VEHICLES = 'Não há mais veículos para serem exibidos';
 
 export const ErrorHelper = {
   INVALID_FIELD,
+  MISSING_FIELD,
   INVALID_PASSWORD,
   INVALID_PASSWORD_INFO,
   INVALID_EMAIL,
