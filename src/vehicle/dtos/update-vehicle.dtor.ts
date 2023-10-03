@@ -1,15 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import {
-  IsNotEmpty,
-  IsNumber,
-  IsOptional,
-  IsString,
-  ValidateBy,
-  ValidationOptions,
-  buildMessage,
-  isObject,
-  isString,
-} from 'class-validator';
+import { IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
 import { ErrorHelper } from 'src/helpers/error.helper';
 import { IsYearValid } from './create-vehicle.dto';
 
