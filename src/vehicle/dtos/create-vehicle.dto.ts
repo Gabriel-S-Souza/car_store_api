@@ -3,16 +3,19 @@ import {
   IsString,
   IsNotEmpty,
   IsNumber,
-  IsArray,
-  ArrayNotEmpty,
   ValidateBy,
   ValidationOptions,
   buildMessage,
+  IsOptional,
 } from 'class-validator';
 import { ConditionEnum } from '../vehicle.entity';
 import { ErrorHelper } from 'src/helpers/error.helper';
 
 export class CreateVehicleDto {
+  @ApiProperty({ type: String })
+  @IsOptional()
+  engine: string;
+
   @IsNotEmpty({ message: ErrorHelper.MISSING_FIELD })
   @IsString()
   @ApiProperty({ type: String })
@@ -43,7 +46,7 @@ export class CreateVehicleDto {
   @ApiProperty({ type: String })
   description: string;
 
-  @IsNotEmpty({ message: ErrorHelper.MISSING_FIELD })
+  @IsOptional()
   @IsNumber({ allowNaN: false }, { message: ErrorHelper.INVALID_FIELD })
   @ApiProperty({ type: Number })
   mileage: number;
@@ -58,11 +61,6 @@ export class CreateVehicleDto {
   @IsString({ message: ErrorHelper.INVALID_FIELD })
   @ApiProperty({ type: String })
   condition: ConditionEnum;
-
-  @IsArray()
-  @ArrayNotEmpty()
-  @ApiProperty({ type: Array, default: [{ key: 'key', value: 'value' }] })
-  additionalInformations: { key: string; value: string }[];
 }
 
 export function IsYearValid(validationOptions?: ValidationOptions) {
@@ -72,10 +70,10 @@ export function IsYearValid(validationOptions?: ValidationOptions) {
       validator: {
         validate(value) {
           const currentYear = new Date().getFullYear();
-          return value <= currentYear;
+          return value <= currentYear && value > 1800;
         },
         defaultMessage: buildMessage(
-          () => `O ano do veículo não pode ser maior que o ano atual.`,
+          () => `O ano não pode ser usado. Verifique o ano informado`,
           validationOptions,
         ),
       },

@@ -3,7 +3,6 @@ import { BadRequestException, ValidationPipe } from '@nestjs/common';
 export const customValidationPipe = new ValidationPipe({
   whitelist: true,
   forbidNonWhitelisted: true,
-  // TODO: test this approach
   exceptionFactory: (errors) => {
     errors.forEach((error) => {
       if (error.constraints && error.constraints.whitelistValidation) {

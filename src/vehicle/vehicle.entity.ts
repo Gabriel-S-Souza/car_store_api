@@ -44,15 +44,15 @@ export class VehicleEntity {
   @Column('text')
   description: string;
 
-  @Column('text')
+  @Column({ length: 100 })
   condition: string;
 
   @Column('integer')
   year: number;
 
-  @Column('integer')
+  @Column('integer', { nullable: true })
   mileage: number;
 
-  @Column('jsonb', { name: 'additional_informations', nullable: true })
-  additionalInformations: { key: string; value: string }[];
+  @Column({ length: 20, name: 'engine', nullable: true })
+  engine: string;
 }

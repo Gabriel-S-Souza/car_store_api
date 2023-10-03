@@ -57,37 +57,10 @@ export class UpdateVehicleDto {
   year: number;
 
   @IsOptional()
-  @IsArrayOfKeyValueObjects()
-  @ApiProperty({ type: Array, default: [{ key: 'key', value: 'value' }] })
-  additionalInformations: { key: string; value: string }[];
-}
+  @IsNumber({ allowNaN: false }, { message: ErrorHelper.INVALID_FIELD })
+  @ApiProperty({ type: Number })
+  mileage: number;
 
-function IsArrayOfKeyValueObjects(validationOptions?: ValidationOptions) {
-  return ValidateBy(
-    {
-      name: 'isArrayOfKeyValueObjects',
-      validator: {
-        validate(value) {
-          if (!Array.isArray(value)) {
-            return false;
-          }
-
-          return value.every(
-            (item) =>
-              isObject(item) &&
-              'key' in item &&
-              'value' in item &&
-              isString(item.key) &&
-              isString(item.value),
-          );
-        },
-        defaultMessage: buildMessage(
-          (eachPrefix) =>
-            eachPrefix + ErrorHelper.INVALID_ADICIONAL_INFORMATION,
-          validationOptions,
-        ),
-      },
-    },
-    validationOptions,
-  );
+  @IsOptional()
+  engine: string;
 }
