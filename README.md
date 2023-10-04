@@ -1,5 +1,5 @@
 # Car Store Api
-Api para cadastro e listagem de carros com login para usuários admin
+Api para cadastro e listagem de carros com login para usuários admin. A api foi desenvolvida em usa Node e Nestjs e usa o banco de dados PostgresSQL.
 
 clone o repositório:
 ```bash
