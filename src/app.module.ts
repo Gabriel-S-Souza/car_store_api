@@ -16,6 +16,7 @@ import { VehicleModule } from './vehicle/vehicle.module';
       database: process.env.DB_NAME,
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
       synchronize: true,
+      retryDelay: 3000,
     } as TypeOrmModuleOptions),
     AuthModule,
     VehicleModule,

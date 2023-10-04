@@ -1,0 +1,25 @@
+#TODO: and a network
+version: "3.9"
+
+services:
+  pgsql:
+    image: postgres:14-alpine
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: mypostgrepassword
+      POSTGRES_DB: car_store
+    ports:
+      - "2999:5432"
+    volumes:
+      - ./car_store_data:/app/data/pgdata
+
+
+  app:
+    build: .
+    ports:
+      - "3000:3000"
+    depends_on:
+      - pgsql
+    volumes:
+      - ./car_store_data:/app/data/appdata
