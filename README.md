@@ -1,73 +1,236 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# Car Store Api
+Api para cadastro e listagem de carros com login para usuários admin
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
-
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
-
-## Description
-
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
-
-## Installation
-
+clone o repositório:
 ```bash
-$ yarn install
+git clone https://github.com/Gabriel-S-Souza/car_store_api.git
 ```
 
-## Running the app
-
-```bash
-# development
-$ yarn run start
-
-# watch mode
-$ yarn run start:dev
-
-# production mode
-$ yarn run start:prod
+construa as imagens Docker:
+```base
+docker-compose build
 ```
 
-## Test
+inicie os contêineres Docker:
 
 ```bash
-# unit tests
-$ yarn run test
-
-# e2e tests
-$ yarn run test:e2e
-
-# test coverage
-$ yarn run test:cov
+docker-compose up
 ```
 
-## Support
+A API estará disponível em na URL http://localhost:3000/api
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+### Listagem de carros
 
-## Stay in touch
+GET /api/vehicles?page=1
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+response:
 
-## License
+```bash
+[
+   {
+      "id":5,
+      "name":"Combi",
+      "brand":"Volkswagen",
+      "model":"minivan",
+      "image":"imageBase64",
+      "price":15000
+   },
+   {
+      "id":10,
+      "name":"Siena",
+      "brand":"Volksvagen",
+      "model":"sedã",
+      "image":"imageBase64",
+      "price":21000
+   },
+  ...
+]
+```
 
-Nest is [MIT licensed](LICENSE).
+
+### Consultar veículo por ID
+
+GET /api/vehicles/27
+
+Resposta 200
+```bash
+{
+  "id": 8,
+  "name": "Gol",
+  "brand": "Volksvagen",
+  "model": "Fire",
+  "image": "imageBase64",
+  "price": 21000,
+  "description": "Em bom estado, economico, rápido",
+  "condition": "used",
+  "year": 2023,
+  "mileage": 25000,
+  "engine": "2.0"
+}
+```
+
+
+### Consultar veículo por ID
+
+GET /api/vehicles/27
+
+Resposta 200
+```bash
+{
+  "id": 8,
+  "name": "Gol",
+  "brand": "Volksvagen",
+  "model": "Fire",
+  "image": "imageBase64",
+  "price": 21000,
+  "description": "Em bom estado, economico, rápido",
+  "condition": "used",
+  "year": 2023,
+  "mileage": 25000,
+  "engine": "2.0"
+}
+```
+Os endpoints POST, PUT e DELETE são restritos aos usuários admin e exigem autorização. Dessa forma você precisará fazer o signup e login para ober o accessToken.
+
+
+### SignUp
+
+POST /api/signup
+
+Payload
+```bash
+{
+  "name": "Joao Chico",
+  "email": "joao@test.com",
+  "password": "@Joao123"
+}
+```
+
+Resposta 201
+```bash
+{
+  "id": 5,
+  "name": "Joao Chico",
+  "email": "joao@test.com",
+  "role": "admin"
+}
+```
+
+
+### Login
+
+POST /api/login
+
+Payload
+```bash
+{
+  "email": "joao@test.com",
+  "password": "@Joao123"
+}
+```
+
+Resposta 200
+```bash
+{
+  "accessToken": "eyJhbGciOiJIUzIIsInRC...", // lasts 1 hour
+  "refreshToken": "eyJhbGciOiJIIkpXVbWF...", // lasts 30 days
+  "user": {
+    "id": 5,
+    "name": "Joao Chico",
+    "email": "joao@test.com",
+    "role": "admin"
+  }
+}
+```
+
+Caso o token expire, você pode chamar o endpoint "refresh-token" para renova-lo
+
+
+### Refresh token
+
+POST /api/refresh-token
+
+Payload
+```bash
+{
+	"refreshToken": "eyJhbGciOiJIUzI1N...
+}
+```
+
+
+Resposta 201
+```bash
+{
+	"accessToken": "eyJhbGciOiJIUzI1NiIn...",
+	"refreshToken": "eyJhbGciOiJIUzI1NiI..."
+}
+```
+
+
+### Cadastro do veículo
+
+POST /api/vehicles
+
+Payload
+```bash
+{
+  "name": "Gol",
+  "brand": "Volksvagen",
+  "model": "ABC",
+  "price": 21000,
+  "year": 2023,
+  "engine": "2.0",
+  "mileage": 25000,
+  "condition": "used",
+  "description": "Em bom estado, economico, rápido",
+  "image": "imageBase64",
+}
+```
+
+Resposta 201
+```bash
+{
+  "name": "Gol",
+  "brand": "Volksvagen
+    ...
+}
+```
+
+
+### Edição de veículo
+
+DELETE /api/vehicles/8
+
+Payload
+```bash
+{
+  "name": "Corsa"
+}
+```
+
+Resposta 200
+```bash
+{
+  "name": "Corsa",
+  "brand": "Volksvagen
+  ...
+}
+```
+
+
+### Deleção de veículo
+
+DELETE /api/vehicles/8
+
+Resposta 200
+```bash
+{
+  "statusCode": 200,
+  "message": "Veículo deletado com sucesso"
+}
+```
+
+Você pode consultar a documentação swagger disponível em /api/doc.
+OBS: a documentação swagger pode está incompleta.
+
+contato: gabriel.appdeveloper@gmail.com
