@@ -46,29 +46,7 @@ response:
   ...
 ]
 ```
-
-
-### Consultar veículo por ID
-
-GET /api/vehicles/27
-
-Resposta 200
-```bash
-{
-  "id": 8,
-  "name": "Gol",
-  "brand": "Volksvagen",
-  "model": "Fire",
-  "image": "imageBase64",
-  "price": 21000,
-  "description": "Em bom estado, economico, rápido",
-  "condition": "used",
-  "year": 2023,
-  "mileage": 25000,
-  "engine": "2.0"
-}
-```
-
+<br>
 
 ### Consultar veículo por ID
 
@@ -90,8 +68,9 @@ Resposta 200
   "engine": "2.0"
 }
 ```
+
 Os endpoints POST, PUT e DELETE são restritos aos usuários admin e exigem autorização. Dessa forma você precisará fazer o signup e login para ober o accessToken.
-
+<br>
 
 ### SignUp
 
@@ -115,7 +94,7 @@ Resposta 201
   "role": "admin"
 }
 ```
-
+<br>
 
 ### Login
 
@@ -142,9 +121,8 @@ Resposta 200
   }
 }
 ```
-
 Caso o token expire, você pode chamar o endpoint "refresh-token" para renova-lo
-
+<br>
 
 ### Refresh token
 
@@ -165,7 +143,7 @@ Resposta 201
 	"refreshToken": "eyJhbGciOiJIUzI1NiI..."
 }
 ```
-
+<br>
 
 ### Cadastro do veículo
 
@@ -195,7 +173,7 @@ Resposta 201
     ...
 }
 ```
-
+<br>
 
 ### Edição de veículo
 
@@ -216,7 +194,7 @@ Resposta 200
   ...
 }
 ```
-
+<br>
 
 ### Deleção de veículo
 
