@@ -25,6 +25,8 @@ docker-compose up
 
 A API estará disponível em na URL http://localhost:3000/api
 
+Você pode baixar o [arquivo insomnia](https://drive.google.com/file/d/1yzU-f_6xxkBq4hROzJtvb8cVBg7A8ajb/view?usp=sharing) para testar a api.
+
 ### Listagem de carros
 
 GET /api/vehicles?page=1
