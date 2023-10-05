@@ -23,7 +23,7 @@ inicie os contêineres Docker:
 docker-compose up
 ```
 
-A API estará disponível em na URL http://localhost:3000/api
+A API estará disponível na URL http://localhost:3000/api
 
 Você pode baixar o [arquivo insomnia](https://drive.google.com/file/d/1yzU-f_6xxkBq4hROzJtvb8cVBg7A8ajb/view?usp=sharing) para testar a api.
 
@@ -31,7 +31,7 @@ Você pode baixar o [arquivo insomnia](https://drive.google.com/file/d/1yzU-f_6x
 
 GET /api/vehicles?page=1
 
-response:
+Resposta 200
 
 ```bash
 [
@@ -185,7 +185,7 @@ Resposta 201
 
 ### Edição de veículo
 
-DELETE /api/vehicles/8
+PUT /api/vehicles/8
 
 Payload
 ```bash
