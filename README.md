@@ -5,12 +5,6 @@ clone o repositório:
 ```bash
 git clone https://github.com/Gabriel-S-Souza/car_store_api.git
 ```
-Obtenha as dependêndias do projeto
-```base
-yarn install
-# ou
-npm install
-```
 
 construa as imagens Docker:
 ```base
