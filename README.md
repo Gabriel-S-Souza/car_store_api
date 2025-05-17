@@ -19,7 +19,7 @@ docker-compose up
 
 A API estará disponível na URL http://localhost:3000/api
 
-Você pode utilizar o swagger disponível em /api/doc para estudar e testar a api ou baixar o [arquivo json](https://drive.google.com/file/d/1yzU-f_6xxkBq4hROzJtvb8cVBg7A8ajb/view?usp=sharing) para importar no Insomnia.
+Você pode utilizar o swagger disponível em /api/doc ou baixar o [arquivo json](https://drive.google.com/file/d/1yzU-f_6xxkBq4hROzJtvb8cVBg7A8ajb/view?usp=sharing) para importar no Insomnia.
 
 ### Listagem de carros
 
